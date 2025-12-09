@@ -1,5 +1,5 @@
 import { showHUD, closeMainWindow } from "@raycast/api";
-import { configExists, isHelperRunning, restartHelper, toggleConfigValue, CONFIG_TOGGLES } from "./utils/config";
+import { configExists, isHelperRunning, reloadHelper, toggleConfigValue, CONFIG_TOGGLES } from "./utils/config";
 
 export default async function toggleButtons() {
   try {
@@ -15,7 +15,7 @@ export default async function toggleButtons() {
     const message = newState === "enabled" ? toggle.enabledMessage : toggle.disabledMessage;
 
     if (isHelperRunning()) {
-      restartHelper();
+      reloadHelper();
 
       await showHUD(message);
     } else {

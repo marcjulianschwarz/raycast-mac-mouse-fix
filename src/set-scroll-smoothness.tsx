@@ -2,7 +2,7 @@ import { List, Action, ActionPanel, showHUD, closeMainWindow } from "@raycast/ap
 import {
   configExists,
   isHelperRunning,
-  restartHelper,
+  reloadHelper,
   setConfigValue,
   getConfigValue,
   SCROLL_SMOOTHNESS_KEY,
@@ -24,7 +24,7 @@ export default function SetScrollSmoothness() {
     setConfigValue(SCROLL_SMOOTHNESS_KEY, value);
 
     if (isHelperRunning()) {
-      restartHelper();
+      reloadHelper();
 
       await showHUD(`Scroll smoothness: ${value}`);
     } else {

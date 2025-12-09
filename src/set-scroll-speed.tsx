@@ -2,7 +2,7 @@ import { List, Action, ActionPanel, showHUD, closeMainWindow } from "@raycast/ap
 import {
   configExists,
   isHelperRunning,
-  restartHelper,
+  reloadHelper,
   setConfigValue,
   getConfigValue,
   SCROLL_SPEED_KEY,
@@ -24,7 +24,7 @@ export default function SetScrollSpeed() {
     setConfigValue(SCROLL_SPEED_KEY, value);
 
     if (isHelperRunning()) {
-      restartHelper();
+      reloadHelper();
 
       await showHUD(`Scroll speed: ${value}`);
     } else {

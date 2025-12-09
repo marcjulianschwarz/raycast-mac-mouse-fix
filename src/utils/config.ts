@@ -2,10 +2,13 @@ import { execSync } from "child_process";
 import { homedir } from "os";
 import { existsSync } from "fs";
 import { showHUD } from "@raycast/api";
+import path from "path";
+import { environment } from "@raycast/api";
 
 const CONFIG_FILE = `${homedir()}/Library/Application Support/com.nuebling.mac-mouse-fix/config.plist`;
 const HELPER_NAME = "Mac Mouse Fix Helper";
 const PLIST_BUDDY = "/usr/libexec/PlistBuddy";
+const UPDATE_HELPER_BINARY = path.join(environment.assetsPath, "update_mmf_helper");
 
 export interface ConfigToggle {
   key: string;
@@ -124,6 +127,15 @@ export function setPlistValue(key: string, value: string): void {
   } catch (error) {
     console.log(error);
     throw new Error(`Could not set ${key} in config file`);
+  }
+}
+
+export function reloadHelper() {
+  try {
+    execSync(`"${UPDATE_HELPER_BINARY}"`, { stdio: "ignore" });
+  } catch (error) {
+    console.log(error);
+    throw new Error("Could not reload Mac Mouse Fix Helper");
   }
 }
 
