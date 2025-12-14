@@ -16,7 +16,7 @@
   "commands": [
     {
       "name": "toggle-buttons",
-      "title": "Toggle Buttons",
+      "title": "Toggle Button Modifications",
       "description": "Toggle button remapping on/off",
       "mode": "no-view"
     },
@@ -29,13 +29,13 @@
     {
       "name": "set-scroll-smoothness",
       "title": "Set Scroll Smoothness",
-      "description": "Choose scroll smoothness level (off/regular/high)",
+      "description": "Choose scroll smoothness level",
       "mode": "view"
     },
     {
       "name": "set-scroll-speed",
       "title": "Set Scroll Speed",
-      "description": "Choose scroll speed level (system/low/medium/high)",
+      "description": "Choose scroll speed level",
       "mode": "view"
     },
     {
