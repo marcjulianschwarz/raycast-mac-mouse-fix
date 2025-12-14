@@ -13,6 +13,16 @@
     "System"
   ],
   "license": "MIT",
+  "preferences": [
+    {
+      "name": "customConfigPath",
+      "type": "textfield",
+      "required": false,
+      "title": "Custom Config Path",
+      "description": "Custom path to Mac Mouse Fix config.plist file (leave empty to use default location)",
+      "placeholder": "/path/to/custom/config.plist"
+    }
+  ],
   "commands": [
     {
       "name": "toggle-buttons",

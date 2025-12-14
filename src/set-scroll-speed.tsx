@@ -1,15 +1,8 @@
-import { List, Action, ActionPanel, Icon, Color, showHUD } from "@raycast/api";
+import { List, Action, ActionPanel, Icon, Color } from "@raycast/api";
 import { useState } from "react";
-import {
-  configExists,
-  isHelperRunning,
-  reloadHelper,
-  setConfigValue,
-  getConfigValue,
-  SCROLL_SPEED_KEY,
-  SCROLL_SPEED_LEVELS,
-  ScrollSpeed,
-} from "./utils/config";
+import { SCROLL_SPEED_KEY, SCROLL_SPEED_LEVELS, ScrollSpeed, setConfigValue, getConfigValue } from "./utils/config";
+import { isHelperRunning, reloadHelper } from "./utils/helper";
+import { useConfigCheck } from "./utils/useConfigCheck";
 
 const SPEED_CONFIG: Record<ScrollSpeed, { icon: Icon; color: Color; title: string; subtitle: string }> = {
   system: {
@@ -39,12 +32,15 @@ const SPEED_CONFIG: Record<ScrollSpeed, { icon: Icon; color: Color; title: strin
 };
 
 export default function SetScrollSpeed() {
-  if (!configExists()) {
-    showHUD("Config file not found. Please run Mac Mouse Fix at least once.");
+  const configOk = useConfigCheck();
+
+  const [currentValue, setCurrentValue] = useState<ScrollSpeed>(() => {
+    return configOk ? (getConfigValue(SCROLL_SPEED_KEY) as ScrollSpeed) : "system";
+  });
+
+  if (!configOk) {
     return null;
   }
-
-  const [currentValue, setCurrentValue] = useState<ScrollSpeed>(getConfigValue(SCROLL_SPEED_KEY) as ScrollSpeed);
 
   function handleSelection(value: ScrollSpeed) {
     // Optimistically update the UI

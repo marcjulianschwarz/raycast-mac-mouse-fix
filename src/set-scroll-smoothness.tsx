@@ -1,15 +1,14 @@
-import { List, Action, ActionPanel, Icon, Color, showHUD } from "@raycast/api";
+import { List, Action, ActionPanel, Icon, Color } from "@raycast/api";
 import { useState } from "react";
 import {
-  configExists,
-  isHelperRunning,
-  reloadHelper,
-  setConfigValue,
-  getConfigValue,
   SCROLL_SMOOTHNESS_KEY,
   SCROLL_SMOOTHNESS_LEVELS,
   ScrollSmoothness,
+  setConfigValue,
+  getConfigValue,
 } from "./utils/config";
+import { isHelperRunning, reloadHelper } from "./utils/helper";
+import { useConfigCheck } from "./utils/useConfigCheck";
 
 const SMOOTHNESS_CONFIG: Record<ScrollSmoothness, { icon: Icon; color: Color; title: string; subtitle: string }> = {
   off: {
@@ -33,14 +32,15 @@ const SMOOTHNESS_CONFIG: Record<ScrollSmoothness, { icon: Icon; color: Color; ti
 };
 
 export default function SetScrollSmoothness() {
-  if (!configExists()) {
-    showHUD("Config file not found. Please run Mac Mouse Fix at least once.");
+  const configOk = useConfigCheck();
+
+  const [currentValue, setCurrentValue] = useState<ScrollSmoothness>(() => {
+    return configOk ? (getConfigValue(SCROLL_SMOOTHNESS_KEY) as ScrollSmoothness) : "off";
+  });
+
+  if (!configOk) {
     return null;
   }
-
-  const [currentValue, setCurrentValue] = useState<ScrollSmoothness>(
-    getConfigValue(SCROLL_SMOOTHNESS_KEY) as ScrollSmoothness,
-  );
 
   function handleSelection(value: ScrollSmoothness) {
     // Optimistically update the UI

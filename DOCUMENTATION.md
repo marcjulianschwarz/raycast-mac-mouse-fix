@@ -3,7 +3,9 @@
 The abbreviation for Mac Mouse Fix is MMF.
 
 This extension is editing the `config.plist` configuration file of the Mac Mouse Fix app.
-The file is located at `~/Library/Application Support/com.nuebling.mac-mouse-fix/config.plist`.
+The file is located at `~/Library/Application Support/com.nuebling.mac-mouse-fix/config.plist` by default.
+
+A custom config path can be specified in the extension preferences if your config file is in a different location.
 
 It contains entries for all settings of the MMF app. Editing a value in the file will need a reload of the MMF helper process for the udpate to appear in the app.
 
@@ -36,9 +38,10 @@ See `utils/config.ts` for the configuration of all commands and their counterpar
 
 The extension code is organized into modular utilities:
 
-- `utils/plist.ts` - Interface for reading/writing the `config.plist` file
+- `utils/plist.ts` - Interface for reading/writing the `config.plist` file and error handling
 - `utils/helper.ts` - Interface for managing the MMF helper process
 - `utils/config.ts` - High-level config operations and command definitions
+- `utils/useConfigCheck.ts` - React hook for config validation
 
 # Mac Mouse Fix Configuration Settings
 

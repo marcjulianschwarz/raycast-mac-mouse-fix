@@ -84,10 +84,6 @@ export const SCROLL_SPEED_LEVELS: ScrollSpeed[] = ["system", "low", "medium", "h
 
 export const SCROLL_SPEED_KEY = "Scroll:speed";
 
-// Re-export functions from plist and helper modules for convenience
-export { configExists, readPlistValue, setPlistValue } from "./plist";
-export { isHelperRunning, reloadHelper, restartHelper } from "./helper";
-
 export function toggleConfigValue(key: string): { newValue: string; newState: "enabled" | "disabled" } {
   const current = readPlistValue(key);
   const newValue = current === "true" ? "false" : "true";

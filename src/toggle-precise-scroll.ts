@@ -1,12 +1,14 @@
 import { showHUD, closeMainWindow } from "@raycast/api";
-import { configExists, isHelperRunning, reloadHelper, toggleConfigValue, CONFIG_TOGGLES } from "./utils/config";
+import { toggleConfigValue, CONFIG_TOGGLES } from "./utils/config";
+import { configExists, showConfigErrorIfNeeded } from "./utils/plist";
+import { isHelperRunning, reloadHelper } from "./utils/helper";
 
 export default async function togglePreciseScroll() {
   try {
     await closeMainWindow();
 
     if (!configExists()) {
-      await showHUD("Config file not found. Please run Mac Mouse Fix at least once.");
+      await showConfigErrorIfNeeded();
       return;
     }
 
