@@ -1,14 +1,4 @@
-import { execSync } from "child_process";
-import { homedir } from "os";
-import { existsSync } from "fs";
-import { showHUD } from "@raycast/api";
-import path from "path";
-import { environment } from "@raycast/api";
-
-const CONFIG_FILE = `${homedir()}/Library/Application Support/com.nuebling.mac-mouse-fix/config.plist`;
-const HELPER_NAME = "Mac Mouse Fix Helper";
-const PLIST_BUDDY = "/usr/libexec/PlistBuddy";
-const UPDATE_HELPER_BINARY = path.join(environment.assetsPath, "update_mmf_helper");
+import { readPlistValue, setPlistValue } from "./plist";
 
 export interface ConfigToggle {
   key: string;
@@ -94,58 +84,9 @@ export const SCROLL_SPEED_LEVELS: ScrollSpeed[] = ["system", "low", "medium", "h
 
 export const SCROLL_SPEED_KEY = "Scroll:speed";
 
-export function configExists(): boolean {
-  return existsSync(CONFIG_FILE);
-}
-
-export function isHelperRunning(): boolean {
-  try {
-    execSync(`pgrep -x "${HELPER_NAME}"`, { stdio: "ignore" });
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-export function readPlistValue(key: string): string {
-  try {
-    const result = execSync(`"${PLIST_BUDDY}" -c "Print :${key}" "${CONFIG_FILE}"`, {
-      encoding: "utf-8",
-    });
-    return result.trim();
-  } catch (error) {
-    console.log(error);
-    throw new Error(`Could not read ${key} from config file`);
-  }
-}
-
-export function setPlistValue(key: string, value: string): void {
-  try {
-    execSync(`"${PLIST_BUDDY}" -c "Set :${key} ${value}" "${CONFIG_FILE}"`, {
-      stdio: "ignore",
-    });
-  } catch (error) {
-    console.log(error);
-    throw new Error(`Could not set ${key} in config file`);
-  }
-}
-
-export function reloadHelper() {
-  try {
-    execSync(`"${UPDATE_HELPER_BINARY}"`, { stdio: "ignore" });
-  } catch (error) {
-    console.log(error);
-    throw new Error("Could not reload Mac Mouse Fix Helper");
-  }
-}
-
-export function restartHelper() {
-  try {
-    execSync(`killall "${HELPER_NAME}"`, { stdio: "ignore" });
-  } catch {
-    showHUD("");
-  }
-}
+// Re-export functions from plist and helper modules for convenience
+export { configExists, readPlistValue, setPlistValue } from "./plist";
+export { isHelperRunning, reloadHelper, restartHelper } from "./helper";
 
 export function toggleConfigValue(key: string): { newValue: string; newState: "enabled" | "disabled" } {
   const current = readPlistValue(key);
