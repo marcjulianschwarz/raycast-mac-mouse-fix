@@ -1,3 +1,7 @@
 # Mac Mouse Fix Changelog
 
-## [Initial Version] - {PR_MERGE_DATE}
+## [Toggle Pointer Acceleration] - 2026-02-11
+
+- Added "Toggle Pointer Acceleration" command to toggle the macOS pointer acceleration setting via System Settings (Mouse → Advanced)
+
+## [Initial Version] - 2026-01-20
